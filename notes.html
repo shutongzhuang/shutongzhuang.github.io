@@ -1,0 +1,1027 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Study Notes — Shutong Zhuang</title>
+<meta name="description" content="Study notes by Shutong Zhuang on reinforcement learning, language-model post-training, and the principles of deep learning theory.">
+<meta name="author" content="Shutong Zhuang">
+<meta name="theme-color" content="#101b2b">
+<meta property="og:title" content="Study Notes — Shutong Zhuang">
+<meta property="og:description" content="Study notes by Shutong Zhuang on reinforcement learning, language-model post-training, and the principles of deep learning theory.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://shutongzhuang.github.io/notes.html">
+<link rel="canonical" href="https://shutongzhuang.github.io/notes.html">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="site-nav frame" aria-label="Main navigation">
+<a class="site-name" href="./">Shutong Zhuang</a>
+<ul>
+<li>
+<a href="./">Home</a>
+</li>
+<li>
+<a href="notes.html" aria-current="page">Notes</a>
+</li>
+<li>
+<a href="./#publications">Publications</a>
+</li>
+<li>
+<a href="./#contact">Contact</a>
+</li>
+</ul>
+</nav>
+<header class="hero">
+<img class="hero-scene" src="star-sea.webp" alt="" loading="eager" fetchpriority="high" decoding="async">
+<div class="frame">
+<div class="brand">
+<strong>Shutong Zhuang</strong>
+<span>From Physics to AI</span>
+</div>
+<h1>Understanding through derivation.</h1>
+<p>Notes on reinforcement learning and the theory of neural networks.</p>
+</div>
+</header>
+<main class="frame main" id="main" tabindex="-1">
+<section class="section">
+<div class="section-top">
+<h2 class="section-title">Study Notes</h2>
+<span class="credit">Two reading companions</span>
+</div>
+<p class="reading muted">Personal notes on the assumptions, derivations, and connections behind the methods. Together they connect my work in mathematical physics with reinforcement learning and neural-network theory.</p>
+</section>
+<section class="section" aria-label="Reading notes">
+<article class="item" id="rlpg" aria-labelledby="rlpg-title">
+<div class="meta">
+<span class="number">01</span>
+<span>Reinforcement learning</span>
+<span>English</span>
+</div>
+<h2 id="rlpg-title">From Value Estimation to Policy Optimization</h2>
+<p class="subtitle">A First-Principles Review of Reinforcement Learning and Language-Model Post-Training</p>
+<p class="description">A connected derivation from Bellman recursion and policy gradients to language-model post-training and supervision on student-generated prefixes.</p>
+<div class="topics">
+<span>Value estimation</span>
+<span>Policy gradients</span>
+<span>PPO &amp; GRPO</span>
+<span>On-policy distillation</span>
+</div>
+<p class="credit">8 sections · Appendix A · References</p>
+<div class="actions">
+<a class="button" href="https://drive.google.com/file/d/1LiuikZY2hie-exPb-2wrzERIXA1W-RIH/view" target="_blank" rel="noopener noreferrer" aria-label="Read reinforcement learning notes PDF">Read PDF ↗</a>
+<span class="credit">28 pages · Updated 10 Sep 2026</span>
+</div>
+<details class="overview">
+<summary>Overview &amp; full contents</summary>
+<div class="overview-body">
+<h3>Overview</h3>
+<div class="reading">
+<p>The review begins with the learning problem, value estimation, and the policy-gradient identity. It develops baselines, critics, GAE, importance sampling, and finite policy updates, then examines TRPO, PPO, deterministic and soft actor–critic methods, and distributed learning.</p>
+<p>The second half translates these ideas to language models: preference and reward learning, reference regularization, DPO, GRPO and RLOO, supervised fine-tuning, and on-policy distillation. Objectives, exact gradients, sampled estimators, detached surrogates, and implemented losses are tracked separately. Appendix A gives derivations and boundary conditions for performance differences, GAE, KL estimation, sequence divergence, and potential shaping.</p>
+</div>
+<div class="toc-head">
+<h3>Full contents</h3>
+<button class="toc-toggle" aria-controls="rlpg-toc" aria-expanded="false">Expand all sections</button>
+</div>
+<p class="toc-caption">Section titles follow the PDF. Page numbers appear on the right; expand a chapter to see every subsection.</p>
+<ol class="toc" id="rlpg-toc">
+<li>
+<details class="chapter">
+<summary class="toc-row">
+<span class="num">1</span>
+<span>The problem before the algorithm</span>
+<span class="page">2</span>
+</summary>
+<ol class="subtoc">
+<li>
+<div class="toc-row">
+<span class="num">1.1</span>
+<span>One convention for states, rewards, and time</span>
+<span class="page">2</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">1.2</span>
+<span>Four components of a policy-learning system</span>
+<span class="page">2</span>
+</div>
+</li>
+</ol>
+</details>
+</li>
+<li>
+<details class="chapter">
+<summary class="toc-row">
+<span class="num">2</span>
+<span>Value estimation: compressing the future</span>
+<span class="page">3</span>
+</summary>
+<ol class="subtoc">
+<li>
+<div class="toc-row">
+<span class="num">2.1</span>
+<span>Bellman recursion and policy improvement</span>
+<span class="page">3</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">2.2</span>
+<span>What can replace the unknown value?</span>
+<span class="page">3</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">2.3</span>
+<span>Shared parameters change the stability problem</span>
+<span class="page">4</span>
+</div>
+</li>
+</ol>
+</details>
+</li>
+<li>
+<details class="chapter">
+<summary class="toc-row">
+<span class="num">3</span>
+<span>Policy gradients and the assignment of credit</span>
+<span class="page">5</span>
+</summary>
+<ol class="subtoc">
+<li>
+<div class="toc-row">
+<span class="num">3.1</span>
+<span>Deriving the gradient through trajectory probabilities</span>
+<span class="page">5</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">3.2</span>
+<span>Baselines preserve the mean and change the variance</span>
+<span class="page">6</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">3.3</span>
+<span>From a baseline to a bootstrapped critic</span>
+<span class="page">7</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">3.4</span>
+<span>GAE combines multi-step advantage estimates</span>
+<span class="page">7</span>
+</div>
+</li>
+</ol>
+</details>
+</li>
+<li>
+<details class="chapter">
+<summary class="toc-row">
+<span class="num">4</span>
+<span>From a gradient to a finite policy update</span>
+<span class="page">8</span>
+</summary>
+<ol class="subtoc">
+<li>
+<div class="toc-row">
+<span class="num">4.1</span>
+<span>Importance sampling across actions and trajectories</span>
+<span class="page">8</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">4.2</span>
+<span>The policy-improvement surrogate</span>
+<span class="page">8</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">4.3</span>
+<span>TRPO and PPO control different approximations</span>
+<span class="page">9</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">4.4</span>
+<span>Three different uses of entropy and KL</span>
+<span class="page">10</span>
+</div>
+</li>
+</ol>
+</details>
+</li>
+<li>
+<details class="chapter">
+<summary class="toc-row">
+<span class="num">5</span>
+<span>Deep actor–critic methods: actions, values, and data</span>
+<span class="page">10</span>
+</summary>
+<ol class="subtoc">
+<li>
+<div class="toc-row">
+<span class="num">5.1</span>
+<span>Continuous actions: DPG and DDPG</span>
+<span class="page">10</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">5.2</span>
+<span>An actor can exploit its own critic: TD3</span>
+<span class="page">10</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">5.3</span>
+<span>A different objective: soft actor–critic</span>
+<span class="page">11</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">5.4</span>
+<span>Gradient and trajectory delays in distributed learning</span>
+<span class="page">11</span>
+</div>
+</li>
+</ol>
+</details>
+</li>
+<li>
+<details class="chapter">
+<summary class="toc-row">
+<span class="num">6</span>
+<span>Classical RL to language-model policy optimization</span>
+<span class="page">12</span>
+</summary>
+<ol class="subtoc">
+<li>
+<div class="toc-row">
+<span class="num">6.1</span>
+<span>The prefix MDP and its future return</span>
+<span class="page">12</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">6.2</span>
+<span>Feedback determines the learning problem</span>
+<span class="page">13</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">6.3</span>
+<span>Reward learning and reference-regularized optimization</span>
+<span class="page">13</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">6.4</span>
+<span>DPO: fitting preferences through a policy parameterization</span>
+<span class="page">14</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">6.5</span>
+<span>GRPO and RLOO: replacing a learned baseline with samples</span>
+<span class="page">15</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">6.6</span>
+<span>Specifying rewards and states for verification and interaction</span>
+<span class="page">16</span>
+</div>
+</li>
+</ol>
+</details>
+</li>
+<li>
+<details class="chapter">
+<summary class="toc-row">
+<span class="num">7</span>
+<span>Supervision on student prefixes: SFT, distillation, and local credits</span>
+<span class="page">16</span>
+</summary>
+<ol class="subtoc">
+<li>
+<div class="toc-row">
+<span class="num">7.1</span>
+<span>One-hot SFT and soft-target forward KL</span>
+<span class="page">16</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">7.2</span>
+<span>Move the supervision onto student-visited prefixes</span>
+<span class="page">17</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">7.3</span>
+<span>Reverse KL and its log-probability coefficient</span>
+<span class="page">17</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">7.4</span>
+<span>A common interface: local credits multiplying policy scores</span>
+<span class="page">18</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">7.5</span>
+<span>Policy-sampled cross-entropy and the role of entropy</span>
+<span class="page">19</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">7.6</span>
+<span>When teacher preferences represent task advantage</span>
+<span class="page">20</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">7.7</span>
+<span>When token KL is exactly sequence KL</span>
+<span class="page">20</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">7.8</span>
+<span>The gradient through visited prefixes</span>
+<span class="page">21</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">7.9</span>
+<span>Constructing the supervision channel</span>
+<span class="page">21</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">7.10</span>
+<span>The OPD lesson: supervision follows behavior</span>
+<span class="page">22</span>
+</div>
+</li>
+</ol>
+</details>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">8</span>
+<span>What remains after the algorithm names are removed</span>
+<span class="page">23</span>
+</div>
+</li>
+<li>
+<details class="chapter">
+<summary class="toc-row">
+<span class="num">A</span>
+<span>Derivations and boundary conditions</span>
+<span class="page">25</span>
+</summary>
+<ol class="subtoc">
+<li>
+<div class="toc-row">
+<span class="num">A.1</span>
+<span>The performance-difference identity</span>
+<span class="page">25</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">A.2</span>
+<span>Which critic errors survive GAE?</span>
+<span class="page">25</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">A.3</span>
+<span>Sampling and differentiating a KL estimator</span>
+<span class="page">25</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">A.4</span>
+<span>Differentiating sequence divergence</span>
+<span class="page">26</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">A.5</span>
+<span>Potential shaping and the terminal term</span>
+<span class="page">26</span>
+</div>
+</li>
+</ol>
+</details>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">
+</span>
+<span>References</span>
+<span class="page">27</span>
+</div>
+</li>
+</ol>
+</div>
+</details>
+<details class="overview citation" id="rlpg-citation">
+<summary>How to cite</summary>
+<div class="citation-body">
+<div class="citation-toolbar">
+<h3>Suggested citation</h3>
+<button class="citation-copy" data-copy="rlpg-citation-text" aria-describedby="rlpg-citation-status">Copy citation</button>
+</div>
+<p class="citation-text" id="rlpg-citation-text">Zhuang, S. (2026). <em>From Value Estimation to Policy Optimization: A First-Principles Review of Reinforcement Learning and Language-Model Post-Training</em> [Personal study notes; version of 10 September 2026]. <a href="https://drive.google.com/file/d/1LiuikZY2hie-exPb-2wrzERIXA1W-RIH/view" target="_blank" rel="noopener noreferrer">https://drive.google.com/file/d/1LiuikZY2hie-exPb-2wrzERIXA1W-RIH/view</a>
+</p>
+<div class="citation-toolbar">
+<h3>BibTeX</h3>
+<button class="citation-copy" data-copy="rlpg-bibtex" aria-describedby="rlpg-citation-status">Copy BibTeX</button>
+</div>
+<pre class="citation-code">
+<code id="rlpg-bibtex">@misc{zhuang2026rlpg,
+  author = {Zhuang, Shutong},
+  title = {{From Value Estimation to Policy Optimization: A First-Principles Review of Reinforcement Learning and Language-Model Post-Training}},
+  year = {2026},
+  note = {Personal study notes. Version of 10 September 2026},
+  url = {https://drive.google.com/file/d/1LiuikZY2hie-exPb-2wrzERIXA1W-RIH/view}
+}</code>
+</pre>
+<p class="citation-status" id="rlpg-citation-status" role="status" aria-live="polite">
+</p>
+<p class="credit citation-guidance">When referring to results from the underlying papers, please also cite the original sources listed in the PDF.</p>
+</div>
+</details>
+</article>
+<article class="item" id="pdlt" aria-labelledby="pdlt-title">
+<div class="meta">
+<span class="number">02</span>
+<span>Deep learning theory</span>
+<span>English</span>
+</div>
+<h2 id="pdlt-title">The Principles of Deep Learning Theory</h2>
+<p class="subtitle">A Derivation-Centred Companion · Based on Roberts &amp; Yaida</p>
+<p class="description">A chapter-by-chapter companion connecting random initialization, criticality, finite-width corrections, Bayesian conditioning, and neural tangent kernel dynamics.</p>
+<div class="topics">
+<span>Gaussian limits</span>
+<span>Finite width</span>
+<span>Criticality</span>
+<span>NTK dynamics</span>
+</div>
+<p class="credit">Chapters 0–11 and ∞ · Appendices A–B · References</p>
+<div class="actions">
+<a class="button" href="https://drive.google.com/file/d/1SBwqVDjMvBZv1mK_j7P-XguDn59Y4I-o/view" target="_blank" rel="noopener noreferrer" aria-label="Read deep learning theory notes PDF">Read PDF ↗</a>
+<span class="credit">28 pages · Updated 10 Sep 2026</span>
+</div>
+<details class="overview">
+<summary>Overview &amp; full contents</summary>
+<div class="overview-body">
+<h3>Overview</h3>
+<div class="reading">
+<p>These notes follow <em>The Principles of Deep Learning Theory</em> by Daniel A. Roberts and Sho Yaida, with research in collaboration with Boris Hanin. They retain the calculational path from Gaussian expectations and deep linear networks to preactivation flow, critical initialization, and finite-width fluctuations.</p>
+<p>The learning chapters develop Bayesian conditioning, gradient dynamics, the flow and criticality of the NTK, frozen-kernel learning, representation learning, and the dynamical corrections at the end of training. The appendices cover information and residual networks. Reusable identities replace repetitive component expansions, with the assumptions and limits of the approximations stated alongside the derivations.</p>
+</div>
+<div class="toc-head">
+<h3>Full contents</h3>
+<button class="toc-toggle" aria-controls="pdlt-toc" aria-expanded="false">Expand all sections</button>
+</div>
+<p class="toc-caption">Section titles follow the PDF. Page numbers appear on the right; expand a chapter to see every subsection.</p>
+<ol class="toc" id="pdlt-toc">
+<li>
+<details class="chapter">
+<summary class="toc-row">
+<span class="num">0</span>
+<span>Initialization: what the effective theory describes</span>
+<span class="page">2</span>
+</summary>
+<ol class="subtoc">
+<li>
+<div class="toc-row">
+<span class="num">0.1</span>
+<span>The limit is part of the model</span>
+<span class="page">2</span>
+</div>
+</li>
+</ol>
+</details>
+</li>
+<li>
+<details class="chapter">
+<summary class="toc-row">
+<span class="num">1</span>
+<span>Pretraining: the minimal probability toolkit</span>
+<span class="page">3</span>
+</summary>
+<ol class="subtoc">
+<li>
+<div class="toc-row">
+<span class="num">1.1</span>
+<span>Covariance, precision, and Wick contractions</span>
+<span class="page">3</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">1.2</span>
+<span>One expansion instead of many Wick calculations</span>
+<span class="page">3</span>
+</div>
+</li>
+</ol>
+</details>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">2</span>
+<span>Neural networks: the microscopic definition</span>
+<span class="page">4</span>
+</div>
+</li>
+<li>
+<details class="chapter">
+<summary class="toc-row">
+<span class="num">3</span>
+<span>Deep linear networks: solve the fluctuations first</span>
+<span class="page">5</span>
+</summary>
+<ol class="subtoc">
+<li>
+<div class="toc-row">
+<span class="num">3.1</span>
+<span>The two-point function and its critical point</span>
+<span class="page">5</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">3.2</span>
+<span>An exact random-variance representation</span>
+<span class="page">5</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">3.3</span>
+<span>The order of limits</span>
+<span class="page">6</span>
+</div>
+</li>
+</ol>
+</details>
+</li>
+<li>
+<details class="chapter">
+<summary class="toc-row">
+<span class="num">4</span>
+<span>RG flow of preactivations: a Gaussian mixture</span>
+<span class="page">6</span>
+</summary>
+<ol class="subtoc">
+<li>
+<div class="toc-row">
+<span class="num">4.1</span>
+<span>Condition first, average second</span>
+<span class="page">6</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">4.2</span>
+<span>Three closed recursions at the first nontrivial order</span>
+<span class="page">7</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">4.3</span>
+<span>The single-input reduction</span>
+<span class="page">7</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">4.4</span>
+<span>Marginalization and a useful finite-neuron density</span>
+<span class="page">8</span>
+</div>
+</li>
+</ol>
+</details>
+</li>
+<li>
+<details class="chapter">
+<summary class="toc-row">
+<span class="num">5</span>
+<span>Criticality, universality, and finite-angle geometry</span>
+<span class="page">9</span>
+</summary>
+<ol class="subtoc">
+<li>
+<div class="toc-row">
+<span class="num">5.1</span>
+<span>Two different linear responses</span>
+<span class="page">9</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">5.2</span>
+<span>Scale-invariant activations</span>
+<span class="page">9</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">5.3</span>
+<span>Smooth activations near a zero fixed point</span>
+<span class="page">10</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">5.4</span>
+<span>Other fixed points and the limits of the classification</span>
+<span class="page">10</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">5.5</span>
+<span>Finite angles: why the order of expansion matters</span>
+<span class="page">11</span>
+</div>
+</li>
+</ol>
+</details>
+</li>
+<li>
+<details class="chapter">
+<summary class="toc-row">
+<span class="num">6</span>
+<span>Bayesian learning: conditioning the initialization ensemble</span>
+<span class="page">11</span>
+</summary>
+<ol class="subtoc">
+<li>
+<div class="toc-row">
+<span class="num">6.1</span>
+<span>Prior, likelihood, evidence, and prediction</span>
+<span class="page">11</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">6.2</span>
+<span>Gaussian conditioning and the Schur complement</span>
+<span class="page">12</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">6.3</span>
+<span>What evidence and independence do, and do not, establish</span>
+<span class="page">12</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">6.4</span>
+<span>Finite-width conditioning without a long action expansion</span>
+<span class="page">13</span>
+</div>
+</li>
+</ol>
+</details>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">7</span>
+<span>Gradient-based learning: from parameters to functions</span>
+<span class="page">13</span>
+</div>
+</li>
+<li>
+<details class="chapter">
+<summary class="toc-row">
+<span class="num">8</span>
+<span>RG flow of the NTK: the same architecture, a new observable</span>
+<span class="page">14</span>
+</summary>
+<ol class="subtoc">
+<li>
+<div class="toc-row">
+<span class="num">8.1</span>
+<span>The exact layer recursion</span>
+<span class="page">14</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">8.2</span>
+<span>What the second-layer fluctuations actually contain</span>
+<span class="page">15</span>
+</div>
+</li>
+</ol>
+</details>
+</li>
+<li>
+<details class="chapter">
+<summary class="toc-row">
+<span class="num">9</span>
+<span>NTK criticality: balance propagation and new sources</span>
+<span class="page">15</span>
+</summary>
+<ol class="subtoc">
+<li>
+<div class="toc-row">
+<span class="num">9.1</span>
+<span>Scale-invariant criticality</span>
+<span class="page">16</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">9.2</span>
+<span>The generic stable zero-fixed-point class</span>
+<span class="page">16</span>
+</div>
+</li>
+</ol>
+</details>
+</li>
+<li>
+<details class="chapter">
+<summary class="toc-row">
+<span class="num">10</span>
+<span>Kernel learning: solve the frozen problem exactly</span>
+<span class="page">16</span>
+</summary>
+<ol class="subtoc">
+<li>
+<div class="toc-row">
+<span class="num">10.1</span>
+<span>Residual dynamics and the interpolation formula</span>
+<span class="page">17</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">10.2</span>
+<span>The giant leap and the precise sense of algorithm independence</span>
+<span class="page">17</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">10.3</span>
+<span>Cross-entropy: probabilities are not logits</span>
+<span class="page">17</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">10.4</span>
+<span>The trained ensemble is not automatically a Bayesian posterior</span>
+<span class="page">18</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">10.5</span>
+<span>Generalization and two-point geometry</span>
+<span class="page">18</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">10.6</span>
+<span>A feature-space formulation without incompatible inverses</span>
+<span class="page">19</span>
+</div>
+</li>
+</ol>
+</details>
+</li>
+<li>
+<details class="chapter">
+<summary class="toc-row">
+<span class="num">11</span>
+<span>Representation learning: let the tangent features move</span>
+<span class="page">19</span>
+</summary>
+<ol class="subtoc">
+<li>
+<div class="toc-row">
+<span class="num">11.1</span>
+<span>A compact notation that preserves all contractions</span>
+<span class="page">19</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">11.2</span>
+<span>Initialization statistics: a zero mean is not a zero effect</span>
+<span class="page">20</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">11.3</span>
+<span>A nonlinear feature model and a missing residual term</span>
+<span class="page">20</span>
+</div>
+</li>
+</ol>
+</details>
+</li>
+<li>
+<details class="chapter">
+<summary class="toc-row">
+<span class="num">∞</span>
+<span>The end of training: a closed dynamical correction</span>
+<span class="page">21</span>
+</summary>
+<ol class="subtoc">
+<li>
+<div class="toc-row">
+<span class="num">∞.1</span>
+<span>Two more derivatives, with their coefficients fixed</span>
+<span class="page">21</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">∞.2</span>
+<span>First solve the kernel trajectory, then drive its correction</span>
+<span class="page">22</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">∞.3</span>
+<span>The time convolution and the final projection</span>
+<span class="page">22</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">∞.4</span>
+<span>An exact continuous-time identity behind the calculation</span>
+<span class="page">23</span>
+</div>
+</li>
+</ol>
+</details>
+</li>
+<li>
+<details class="chapter">
+<summary class="toc-row">
+<span class="num">A</span>
+<span>Information: specify the random variables before interpreting it</span>
+<span class="page">23</span>
+</summary>
+<ol class="subtoc">
+<li>
+<div class="toc-row">
+<span class="num">A.1</span>
+<span>Entropy and mutual information</span>
+<span class="page">24</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">A.2</span>
+<span>Information shared by distinct neurons</span>
+<span class="page">24</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">A.3</span>
+<span>The optimal aspect ratio is a perturbative proxy</span>
+<span class="page">25</span>
+</div>
+</li>
+</ol>
+</details>
+</li>
+<li>
+<details class="chapter">
+<summary class="toc-row">
+<span class="num">B</span>
+<span>Residual learning: change the fluctuation budget</span>
+<span class="page">25</span>
+</summary>
+<ol class="subtoc">
+<li>
+<div class="toc-row">
+<span class="num">B.1</span>
+<span>A precisely specified residual MLP</span>
+<span class="page">25</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">B.2</span>
+<span>The corrected finite-width coefficient</span>
+<span class="page">26</span>
+</div>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">B.3</span>
+<span>A general block: variance balance is only one diagnostic</span>
+<span class="page">27</span>
+</div>
+</li>
+</ol>
+</details>
+</li>
+<li>
+<div class="toc-row">
+<span class="num">
+</span>
+<span>References</span>
+<span class="page">28</span>
+</div>
+</li>
+</ol>
+</div>
+</details>
+<details class="overview citation" id="pdlt-citation">
+<summary>How to cite</summary>
+<div class="citation-body">
+<div class="citation-toolbar">
+<h3>Suggested citation</h3>
+<button class="citation-copy" data-copy="pdlt-citation-text" aria-describedby="pdlt-citation-status">Copy citation</button>
+</div>
+<p class="citation-text" id="pdlt-citation-text">Zhuang, S. (2026). <em>The Principles of Deep Learning Theory: A Derivation-Centred Companion</em> [Personal study notes; version of 10 September 2026]. <a href="https://drive.google.com/file/d/1SBwqVDjMvBZv1mK_j7P-XguDn59Y4I-o/view" target="_blank" rel="noopener noreferrer">https://drive.google.com/file/d/1SBwqVDjMvBZv1mK_j7P-XguDn59Y4I-o/view</a>
+</p>
+<div class="citation-toolbar">
+<h3>BibTeX</h3>
+<button class="citation-copy" data-copy="pdlt-bibtex" aria-describedby="pdlt-citation-status">Copy BibTeX</button>
+</div>
+<pre class="citation-code">
+<code id="pdlt-bibtex">@misc{zhuang2026pdlt,
+  author = {Zhuang, Shutong},
+  title = {{The Principles of Deep Learning Theory: A Derivation-Centred Companion}},
+  year = {2026},
+  note = {Personal study notes. Version of 10 September 2026},
+  url = {https://drive.google.com/file/d/1SBwqVDjMvBZv1mK_j7P-XguDn59Y4I-o/view}
+}</code>
+</pre>
+<p class="citation-status" id="pdlt-citation-status" role="status" aria-live="polite">
+</p>
+<p class="credit citation-guidance">For results from the original book, please also cite Roberts and Yaida; see the references in the PDF.</p>
+</div>
+</details>
+</article>
+</section>
+<footer class="footer">
+<span>Shutong Zhuang · Physics → AI</span>
+<div class="footer-links">
+<a href="https://github.com/shutongzhuang">GitHub</a>
+<a href="mailto:510267596@qq.com">Email</a>
+</div>
+</footer>
+</main>
+<script src="site.js" defer>
+</script>
+</body>
+</html>
